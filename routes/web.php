@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 
 
@@ -9,7 +10,7 @@ class Task
         public int $id,
         public string $title,
         public string $description,
-        public ?string $long_description,
+        public ?string $long_description, // ?string mean "opcional"
         public bool $completed,
         public string $created_at,
         public string $updated_at
@@ -56,37 +57,34 @@ $tasks = [
     ),
 ];
 
-Route::get('/hello', function() use($tasks){
-    return view('hello', [
+// Redirect to Main Page
+Route::get('/', function(){
+    return redirect()->route('tasks.index');
+});
+
+// Main Page
+Route::get('/tasks', function() use($tasks){
+    return view('index', [
         'tasks' => $tasks
     ]);
-});
+})->name('tasks.index');
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// DETAIL TASK
+Route::get('/tasks/{id}', function($id) use($tasks){
 
-Route::get('/about', function(){
-    $data = '<script>alert(\'Hello World\')</script>';
-    return view('about', [
-        'data' => $data
-    ]);
-})->name('about');
+    $task = collect($tasks)->firstWhere('id', $id);
 
-Route::get('greetings/{name}', function($name){
-    return 'Greetings, Mr ' . $name;    
-});
+    if(!$task){
+        abort(Response::HTTP_NOT_FOUND);
+    }
 
-// Route::get('/hello', function(){
-//     return 'Hello World';
-// })->name('hello');
+    return view('show', ['task' => $task]);
+})->name('tasks.show');
 
-// Route::get('/hallo', function(){
-//     // return redirect('/hello');
-//     return redirect()->route('hello');
-// });
+
+
 
 Route::fallback(function(){
-    return redirect('/');
+    return redirect()->route('tasks.index');
 });
