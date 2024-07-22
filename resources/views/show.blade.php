@@ -3,7 +3,7 @@
 @section('title', 'List Detail')
     
 @section('content')
-    <h2>List Detail: $task->title</h2>
+    <h2>Title: {{ $task->title }}</h2>
     <hr/>
 
     <p>Description: {{ $task->description }}</p>
