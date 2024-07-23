@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('encabezado', 'Task App')</title>
+    @yield('styles', '')
 </head>
 <body>
     <h1>@yield('title', 'App')</h1>
-
+    
     <div>
         @yield('content')
     </div>

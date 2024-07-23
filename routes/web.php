@@ -20,7 +20,8 @@ Route::get('/tasks', function(){
 
     return view('index', [
         'tasks' => $tasks
-    ]);
+    ])
+    ->with('success', 'Task created successful');
 })->name('tasks.index');
 
 
@@ -30,6 +31,7 @@ Route::get('/tasks', function(){
 // })->name('tasks.create');
 Route::view('/tasks/create', 'create')->name('tasks.create');
 
+# STORE TASK
 Route::post('/tasks/create', function(Request $request){
     // dd($request->all());
     $data = $request->validate([
@@ -52,6 +54,34 @@ Route::post('/tasks/create', function(Request $request){
     return redirect()->route('tasks.show', [ 'id' => $task->id ] );
 })->name('tasks.store');
 
+// Update Task
+Route::put('/tasks/update/{id}', function($id, Request $request){
+    $data = $request->validate([
+        'title' => 'required|max:255',
+        'description' => 'required',
+        'long_description' => 'required'
+    ]);
+
+    $task = Task::findOrFail($id);
+
+    $task->title            = $data['title'];
+    $task->description      = $data['description'];
+    $task->long_description = $data['long_description'];
+    $task->save();
+
+    if(! $task){
+        return 'Something wrong';
+    }
+    
+    return redirect()->route('tasks.show', [ 'id' => $task->id ] );
+})->name('tasks.update');
+
+# EDIT TASK
+Route::get('/tasks/{id}/edit', function($id){
+    $task = Task::findOrFail($id);
+
+    return view('edit', ['task' => $task]);
+})->name('tasks.edit');
 
 // DETAIL TASK
 Route::get('/tasks/{id}', function($id){

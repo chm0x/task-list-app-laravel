@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('encabezado', 'Crear una lista')
-@section('title', 'Crear una lista')
+@section('encabezado', 'Editar lista')
+@section('title', 'Editar lista')
 
 @section('styles')
     <style>
@@ -12,33 +12,32 @@
 @endsection
 
 @section('content')
-    @@{{ $errors }}
-    <form action="{{ route('tasks.store') }}" method="POST">
-        <!-- CSRF stands for (C)ross (S)ite (R)equest (F)orquery -->
+    <form action="{{ route('tasks.update', [ 'id' => $task->id ]) }}" method="POST">
         @csrf
+        @method('PUT')
         <div>
             <label for="title">Title:</label>
-            <input type="text" name="title" id="title"  />
+            <input type="text" name="title" id="title" value="{{ $task->title }}" />
             @error('title')
                 <p class="error-message">{{ $message }}</p>
             @enderror
         </div>
         <div>
             <label for="description">Description:</label>
-            <textarea name="description" id="description"></textarea>
+            <textarea name="description" id="description">{{ $task->description }}</textarea>
             @error('description')
                 <p class="error-message">{{ $message }}</p>
             @enderror
         </div>
         <div>
             <label for="long_description">Long Description:</label>
-            <textarea name="long_description" id="long_description" rows="10"></textarea>
+            <textarea name="long_description" id="long_description" rows="10">{{ $task->long_description }}</textarea>
             @error('long_description')
                 <p class="error-message">{{ $message }}</p>
             @enderror
         </div>
         <div>
-            <input type="submit" value="Crear lista" />
+            <input type="submit" value="Actualizar lista" />
         </div>
     </form>
 @endsection
