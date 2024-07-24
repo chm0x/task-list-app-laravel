@@ -5,6 +5,9 @@
 @section('content')
     <h2>Title: {{ $task->title }}</h2>
     <hr/>
+    @if (session()->has('success'))
+      <div style="background-color:green; color:white;" >{{ session('success') }}</div>
+    @endif
 
     <p>Description: {{ $task->description }}</p>
 

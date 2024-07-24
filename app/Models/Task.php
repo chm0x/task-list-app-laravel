@@ -9,5 +9,12 @@ class Task extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['title', 'description', 'long_description'];
     
+    # It is the opposite of "fillable". 
+    protected $guarded = ['password', 'secret'];
+
+    // public function getRouteKeyName(){
+    //     return 'slug';
+    // }    
 }

@@ -6,8 +6,7 @@
         <hr/>
         @if(count($tasks) > 0)
             @foreach($tasks as $task)
-                <p><a href="{{ route('tasks.show', [ 'id' => $task->id ]) }}" style="color:blue;">Titulo: {{ $task->title }}</a></p>
-                <p>Description: {{ $task->description }}</p>
+                <p><a href="{{ route('tasks.show', [ 'id' => $task->id ]) }}">{{ $task->id }} - Titulo: {{ $task->title }}</a></p>
                 <hr/>
             @endforeach 
         @else
