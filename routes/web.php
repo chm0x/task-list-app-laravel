@@ -22,8 +22,7 @@ Route::get('/tasks', function(){
 
     return view('index', [
         'tasks' => $tasks
-    ])
-    ->with('success', 'Task created successful');
+    ]);
 })->name('tasks.index');
 
 
@@ -44,7 +43,8 @@ Route::post('/tasks/create', function(TaskRequest $request){
         return 'Something wrong';
     }
     
-    return redirect()->route('tasks.show', [ 'id' => $task->id ] );
+    return redirect()->route('tasks.show', [ 'id' => $task->id ] )
+            ->with('success', 'Task created successful');;
 })->name('tasks.store');
 
 
@@ -77,6 +77,18 @@ Route::get('/tasks/{task}', function(Task $task){
 
     return view('show', [ 'task' => $task ] );
 })->name('tasks.show');
+
+# -------------------------------------------------------------------
+
+# DELETE TASK
+Route::delete('/tasks/{task}', function(Task $task){
+    $task->delete();
+
+    return redirect()->route('tasks.index')
+            ->with('success', 'Task deleted successfully!');
+})->name('tasks.destroy');
+
+# -------------------------------------------------------------------
 
 // If a page doesnt exists, redirect to main page.
 // Route::fallback(function(){
