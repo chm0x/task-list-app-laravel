@@ -37,15 +37,7 @@ Route::view('/tasks/create', 'create')->name('tasks.create');
 # -------------------------------------------------------------------
 # STORE TASK
 Route::post('/tasks/create', function(TaskRequest $request){
-    // $data = $request->validated();
-
-    // $task = new Task;
-
-    // $task->title            = $data['title'];
-    // $task->description      = $data['description'];
-    // $task->long_description = $data['long_description'];
-    // $task->save();
-
+    
     $task = Task::create($request->validated());
 
     if(! $task){
@@ -82,14 +74,9 @@ Route::get('/tasks/{task}/edit', function(Task $task){
 # -------------------------------------------------------------------
 // DETAIL TASK
 Route::get('/tasks/{task}', function(Task $task){
-    // $task = Task::findOrFail($id);
 
     return view('show', [ 'task' => $task ] );
 })->name('tasks.show');
-
-
-
-
 
 // If a page doesnt exists, redirect to main page.
 // Route::fallback(function(){
