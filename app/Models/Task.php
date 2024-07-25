@@ -14,6 +14,12 @@ class Task extends Model
     # It is the opposite of "fillable". 
     protected $guarded = ['password', 'secret'];
 
+    public function toogleComplete(){
+        $this->completed = !$this->completed;
+        $this->save();
+    }
+
+    # Only Demostration
     // public function getRouteKeyName(){
     //     return 'slug';
     // }    

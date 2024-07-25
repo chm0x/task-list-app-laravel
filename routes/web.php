@@ -16,7 +16,7 @@ Route::get('/', function(){
 # -------------------------------------------------------------------
 // Main Page
 Route::get('/tasks', function(){
-    $tasks = Task::latest()->get();
+    $tasks = Task::latest()->paginate(5);
     // $tasks = Task::latest()->where('completed', true)->get();
     // $tasks = Task::all();
 
@@ -43,7 +43,7 @@ Route::post('/tasks/create', function(TaskRequest $request){
         return 'Something wrong';
     }
     
-    return redirect()->route('tasks.show', [ 'id' => $task->id ] )
+    return redirect()->route('tasks.show', [ 'task' => $task->id ] )
             ->with('success', 'Task created successful');;
 })->name('tasks.store');
 
@@ -89,6 +89,13 @@ Route::delete('/tasks/{task}', function(Task $task){
 })->name('tasks.destroy');
 
 # -------------------------------------------------------------------
+Route::put('tasks/{task}/toggle-complete', function(Task $task){
+    $task->toogleComplete();
+
+    return redirect()->back()
+            ->with('success', 'Task Updated  Successfully!');
+})->name('tasks.toogle-complete');
+
 
 // If a page doesnt exists, redirect to main page.
 // Route::fallback(function(){
